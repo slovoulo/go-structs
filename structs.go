@@ -89,6 +89,26 @@ func getUserInput()*VideoGame{
 //4)Bonus: Add a connected "Store" function that writes that data into a file.
 //	 The file name should be the unique ID, the function should be called at the end of main
 
+//create a method pointing to VideoGame struct
+func(writeGame *VideoGame)Store(){
+	//use the os package to create a file with videogame ID as its name
+	file,_ :=os.Create(writeGame.ID)
+	//Create a formatted string using the Sprintf function
+	content := fmt.Sprintf("ID: %v\nTitle: %v\nDescription %v\nPrice: %v\n", 
+writeGame.ID,
+writeGame.Title,
+writeGame.Description,
+writeGame.Price)
+
+//Pass the formatted content to file
+file.WriteString(content)
+
+//Save the file by
+file.Close()
+
+
+}
+
 func main() {
 	
 
@@ -102,6 +122,7 @@ func main() {
 	fmt.Print(gow)
 
 	fmt.Println(NewVideoGame("2", "The last of us", "Survive zombie virus", 29.99))
-	getUserInput()
+	//getUserInput()
+	getUserInput().Store()
 
 }
