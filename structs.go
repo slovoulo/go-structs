@@ -1,9 +1,15 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"os"
+	"strconv"
+	"strings"
 	//"time"
 )
+
+var reader = bufio.NewReader(os.Stdin)
 
 //Define a struct
 // type structName struct{
@@ -24,7 +30,7 @@ type VideoGame struct {
 	ID          string
 	Title       string
 	Description string
-	Price       float32
+	Price       float64
 }
 
 //2)Create concrete instances of this data type in 2 different ways:
@@ -32,7 +38,7 @@ type VideoGame struct {
 // -Inside of main, by using a "Creation helper function"
 // Output created DS in cmd
 
-func NewVideoGame(gameId string, gametitle string, gamedesc string, gamePrice float32) *VideoGame {
+func NewVideoGame(gameId string, gametitle string, gamedesc string, gamePrice float64) *VideoGame {
 
 	newGame := VideoGame{
 		ID:          gameId,
@@ -47,17 +53,44 @@ func NewVideoGame(gameId string, gametitle string, gamedesc string, gamePrice fl
 //3)Change the program to fetch user input values for the different data fields and create only one concrete instance
 //	with that data. Output that instance data
 
+func getUserInput()*VideoGame{
+	//Prompt user for struct values
+	fmt.Println("Enter game details ")
+	fmt.Println("-----------------------")
+	fmt.Println("Enter new game ID: ")
+	
+	gameId, _ := reader.ReadString('\n') //read all user's input values until enter(\n) is pressed
+	fmt.Print("Enter new game Title: ")
+	gameTitle, _ := reader.ReadString('\n') 
+	fmt.Print("Enter new game Decription: ")
+	gameDesc, _ := reader.ReadString('\n') 
+	fmt.Print("Enter new game Price: ")
+	gamePrice, _ := reader.ReadString('\n') 
+
+	//save user input in variables
+	gameId = strings.TrimSpace(gameId)
+	gamePrice = strings.TrimSpace(gamePrice)
+	// gameTitle=gameTitle
+	// gameDesc=gameDesc
+
+	//Convert price string to float
+	urgamePrice,_ :=strconv.ParseFloat(gamePrice,64)  //64 represents the float type 
+
+	newUserGame:=NewVideoGame(gameId,gameTitle,gameDesc,urgamePrice)
+
+	fmt.Println(newUserGame)
+
+	return newUserGame
+	
+}
+
+
+
 //4)Bonus: Add a connected "Store" function that writes that data into a file.
 //	 The file name should be the unique ID, the function should be called at the end of main
 
 func main() {
-	// //create an instance of the struct
-	// structVariable=structName{
-	// 	Data: 1,
-	// 	AnotherVar:"var another",
-	// 	Createddate:time.Now(),
-	// }
-	// fmt.Println(structVariable)
+	
 
 	//Exercise 2 solution
 	gow := VideoGame{
@@ -69,5 +102,6 @@ func main() {
 	fmt.Print(gow)
 
 	fmt.Println(NewVideoGame("2", "The last of us", "Survive zombie virus", 29.99))
+	getUserInput()
 
 }
